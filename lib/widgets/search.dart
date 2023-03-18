@@ -12,7 +12,7 @@ class Search extends StatelessWidget {
           ],
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(20))),
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 22),
       child: TextField(
         decoration: InputDecoration(
             border: InputBorder.none,

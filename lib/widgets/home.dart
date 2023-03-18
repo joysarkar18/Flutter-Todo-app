@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/search.dart';
+import '../widgets/title.dart';
 import '../color/colors.dart';
+import '../widgets/list_items.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -31,7 +33,28 @@ class Home extends StatelessWidget {
       ),
       body: Container(
         child: Column(children: [
-          Search(),
+          Expanded(
+            child: ListView(
+              children: [
+                Search(),
+                TTitle(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+                ListItems(),
+              ],
+            ),
+          )
         ]),
       ),
     );

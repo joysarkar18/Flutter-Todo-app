@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/search.dart';
+import 'package:todo_app/widgets/todo.dart';
 import '../widgets/title.dart';
 import '../color/colors.dart';
 import '../widgets/list_items.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Home extends StatefulWidget {
+  Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<Todo> todoList = Todo.todoList();
+
+  void _toChangedHandle(Todo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
+
+  void _onDelete(int id) {
+    setState(() {
+      todoList.removeAt(id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +58,11 @@ class Home extends StatelessWidget {
               children: [
                 Search(),
                 TTitle(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
-                ListItems(),
+                for (Todo todo in todoList)
+                  ListItems(
+                      todo: todo,
+                      onChangedTodo: _toChangedHandle,
+                      onDelete: _onDelete)
               ],
             ),
           )

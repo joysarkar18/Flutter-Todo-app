@@ -1,14 +1,26 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/widgets/todo.dart';
 
 class ListItems extends StatelessWidget {
-  const ListItems({super.key});
+  final Todo todo;
+  final onChangedTodo;
+  final onDelete;
+  const ListItems(
+      {super.key,
+      required this.todo,
+      required this.onChangedTodo,
+      required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 23, right: 23, top: 12),
-      child: const ListTile(
-        shape: RoundedRectangleBorder(
+      margin: const EdgeInsets.only(left: 23, right: 23, top: 12),
+      child: ListTile(
+        onTap: () {
+          onChangedTodo(todo);
+        },
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
@@ -16,17 +28,26 @@ class ListItems extends StatelessWidget {
                 bottomLeft: Radius.circular(15))),
         tileColor: Colors.white,
         leading: Icon(
-          Icons.check_box,
+          todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
           color: Colors.amber,
           size: 33,
         ),
         title: Text(
-          "todo items",
-          style: TextStyle(fontSize: 18),
+          todo.todoTask,
+          style: TextStyle(
+            fontSize: 22,
+            decoration: todo.isDone ? TextDecoration.lineThrough : null,
+          ),
         ),
-        trailing: Icon(
-          Icons.delete,
-          color: Colors.redAccent,
+        trailing: IconButton(
+          icon: const Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          onPressed: () {
+            print("hii");
+            onDelete(todo.id);
+          },
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/search.dart';
 import 'package:todo_app/widgets/todo.dart';
@@ -14,6 +15,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Todo> todoList = Todo.todoList();
+  final _todoColtrolar = TextEditingController();
 
   void _toChangedHandle(Todo todo) {
     setState(() {
@@ -21,10 +23,19 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _onDelete(int id) {
+  void _onDelete(String iid) {
     setState(() {
-      todoList.removeAt(id);
+      todoList.removeWhere((element) => element.id == iid);
     });
+  }
+
+  void _addTodoItem(String ttask) {
+    setState(() {
+      todoList.add(Todo(
+          id: DateTime.now().microsecondsSinceEpoch.toString(),
+          todoTask: ttask));
+    });
+    _todoColtrolar.clear();
   }
 
   @override
@@ -51,22 +62,63 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      body: Container(
-        child: Column(children: [
-          Expanded(
-            child: ListView(
-              children: [
-                Search(),
-                TTitle(),
-                for (Todo todo in todoList)
-                  ListItems(
-                      todo: todo,
-                      onChangedTodo: _toChangedHandle,
-                      onDelete: _onDelete)
-              ],
-            ),
+      body: Stack(
+        children: [
+          Container(
+            child: Column(children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    Search(),
+                    TTitle(),
+                    for (Todo todo in todoList)
+                      ListItems(
+                          todo: todo,
+                          onChangedTodo: _toChangedHandle,
+                          onDelete: _onDelete)
+                  ],
+                ),
+              )
+            ]),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                  margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 10,
+                            spreadRadius: 0,
+                            offset: Offset(0.0, 0.0))
+                      ],
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextField(
+                    controller: _todoColtrolar,
+                    decoration: InputDecoration(
+                        hintText: "Add a new todo item",
+                        border: InputBorder.none),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 20, bottom: 10),
+                child: ElevatedButton(
+                  child: Text("+", style: TextStyle(fontSize: 46)),
+                  onPressed: () {
+                    _addTodoItem(_todoColtrolar.text);
+                  },
+                  style: ElevatedButton.styleFrom(elevation: 10),
+                ),
+              )
+            ]),
           )
-        ]),
+        ],
       ),
     );
   }

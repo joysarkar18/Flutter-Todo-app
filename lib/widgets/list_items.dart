@@ -15,7 +15,7 @@ class ListItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 23, right: 23, top: 12),
+      margin: const EdgeInsets.only(left: 23, right: 23, top: 12, bottom: 2),
       child: ListTile(
         onTap: () {
           onChangedTodo(todo);
